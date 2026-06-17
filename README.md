@@ -112,8 +112,6 @@ Inspired by [Volume²](https://github.com/irzyxa/Volume2) by irzyxa, a feature-r
 
 ## License
 
-Released under the MIT License. Add a `LICENSE` file with your name and year, e.g.:
-
 ```
 MIT License
 
