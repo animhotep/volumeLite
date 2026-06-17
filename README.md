@@ -117,5 +117,5 @@ Released under the MIT License. Add a `LICENSE` file with your name and year, e.
 ```
 MIT License
 
-Copyright (c) 2026 <your name>
+Copyright (c) 2026 animhotep
 ```
