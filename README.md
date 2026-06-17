@@ -35,7 +35,9 @@ This app needs two things that are non-negotiable for the global edge-scroll fea
 
 The menu-bar menu shows the current status on its top line ("Active", "turn off App Sandbox", or "Grant Accessibility access") so you can tell at a glance whether the tap is running.
 
-## Build V1
+## Build V1 for ARM
+
+https://github.com/animhotep/volumeLite/blob/main/VolumeLite.app/Contents/MacOS/VolumeLite
 
 
 ## Building
