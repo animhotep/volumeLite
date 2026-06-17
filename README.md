@@ -6,7 +6,7 @@ A tiny macOS menu-bar app that lets you change the system volume by scrolling th
 ![Swift](https://img.shields.io/badge/Swift-5-orange)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-<img width="596" height="193" alt="image" src="https://github.com/user-attachments/assets/279c047d-5f44-469b-855a-352b8e160583" />
+<img width="329" height="189" alt="image" src="https://github.com/user-attachments/assets/fe591fa2-cb28-4013-b0c0-a831c98e393d" />
 <img width="334" height="205" alt="image" src="https://github.com/user-attachments/assets/f46a2b9c-a448-45f6-bc55-c06a6c3daad9" />
 
 
@@ -34,6 +34,9 @@ This app needs two things that are non-negotiable for the global edge-scroll fea
 2. **App Sandbox must be OFF.** A sandboxed app is not allowed to create a global event tap, so the capability has to be removed from the target. Because of this, VolumeLite cannot be distributed through the Mac App Store — it's intended as a personal/local utility.
 
 The menu-bar menu shows the current status on its top line ("Active", "turn off App Sandbox", or "Grant Accessibility access") so you can tell at a glance whether the tap is running.
+
+## Build V1
+
 
 ## Building
 
