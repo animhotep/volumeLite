@@ -122,7 +122,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         guard let button = statusItem?.button else { return }
         let pct = Int((volume.volume * 100).rounded())
 
-        button.title = " \(pct)"
+        button.title = "\(pct)"
     }
 
     private func syncMenu() {

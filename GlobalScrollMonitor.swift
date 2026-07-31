@@ -100,7 +100,8 @@ final class GlobalScrollMonitor {
         let isContinuous = event.getIntegerValueField(.scrollWheelEventIsContinuous) != 0
         if isContinuous {
             let p = event.getDoubleValueField(.scrollWheelEventPointDeltaAxis1)
-            return CGFloat(p) * pixelSensitivity
+            // Trackpad: reverse direction relative to the mouse wheel.
+            return -(CGFloat(p) * pixelSensitivity)
         } else {
             let line = event.getDoubleValueField(.scrollWheelEventDeltaAxis1)
             let clamped = max(-3.0, min(3.0, line))
