@@ -20,7 +20,10 @@ private func scrollTapCallback(proxy: CGEventTapProxy,
     if monitor.isAtBottomEdge(event.location) {
         let change = monitor.scrollChange(from: event)
         if change != 0 {
-            VolumeController.shared.applyScroll(Float(change))
+            let delta = Float(change)
+            DispatchQueue.main.async {
+                VolumeController.shared.applyScroll(delta)
+            }
         }
         return nil   // swallow it so the window underneath doesn't scroll
     }
@@ -40,6 +43,8 @@ final class GlobalScrollMonitor {
 
     private var tap: CFMachPort?
     private var source: CFRunLoopSource?
+    private var tapRunLoop: CFRunLoop?
+    private var tapThread: Thread?
 
     private init() {}
 
@@ -60,16 +65,35 @@ final class GlobalScrollMonitor {
         self.tap = tap
         let src = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, tap, 0)
         self.source = src
-        CFRunLoopAddSource(CFRunLoopGetMain(), src, .commonModes)
-        CGEvent.tapEnable(tap: tap, enable: true)
+
+        // Run the tap on its own thread so a busy main thread can't stall (and get the tap disabled).
+        let ready = DispatchSemaphore(value: 0)
+        let thread = Thread { [weak self] in
+            let rl = CFRunLoopGetCurrent()
+            CFRunLoopAddSource(rl, src, .commonModes)
+            CGEvent.tapEnable(tap: tap, enable: true)
+            self?.tapRunLoop = rl
+            ready.signal()
+            CFRunLoopRun()
+        }
+        thread.name = "GlobalScrollMonitor.eventTap"
+        thread.qualityOfService = .userInteractive
+        tapThread = thread
+        thread.start()
+        ready.wait()
         isActive = true
     }
 
     func stop() {
         if let tap { CGEvent.tapEnable(tap: tap, enable: false) }
-        if let source { CFRunLoopRemoveSource(CFRunLoopGetMain(), source, .commonModes) }
+        if let rl = tapRunLoop {
+            if let source { CFRunLoopRemoveSource(rl, source, .commonModes) }
+            CFRunLoopStop(rl)
+        }
         tap = nil
         source = nil
+        tapRunLoop = nil
+        tapThread = nil
         isActive = false
     }
 
